@@ -179,10 +179,10 @@ fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Actions based on env
 SERVICE_OPTIONS=""
-[ -f "/config/lenpasswd" ] && SERVICE_OPTIONS+="-lenpasswd-le /config/lenpasswd "
-[ -f "/config/html/about" ] && SERVICE_OPTIONS+="-server-about /config/html/about "
-[ -f "/config/html/rules" ] && SERVICE_OPTIONS+="-server-rules /config/html/rules "
-[ -f "/config/html/terms" ] && SERVICE_OPTIONS+="-server-terms /config/html/terms "
+[ -s "/config/lenpasswd" ] && SERVICE_OPTIONS+="-lenpasswd-le /config/lenpasswd "
+[ -s "/config/html/about" ] && SERVICE_OPTIONS+="-server-about /config/html/about "
+[ -s "/config/html/rules" ] && SERVICE_OPTIONS+="-server-rules /config/html/rules "
+[ -s "/config/html/terms" ] && SERVICE_OPTIONS+="-server-terms /config/html/terms "
 [ -z "$LENPASTE_ROBOTS_DISALLOW" ] && SERVICE_OPTIONS+="-robots-disallow "
 [ -n "$LENPASTE_ADDRESS" ] && SERVICE_OPTIONS+="-address $LENPASTE_ADDRESS "
 [ -n "$LENPASTE_DB_DRIVER" ] && SERVICE_OPTIONS+="-db-driver $LENPASTE_DB_DRIVER "
