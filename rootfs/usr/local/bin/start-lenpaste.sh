@@ -112,17 +112,17 @@ DEFAULT_TEMPLATE_DIR="${DEFAULT_TEMPLATE_DIR:-/usr/local/share/template-files/de
 CONTAINER_IP_ADDRESS="$(ip a 2>/dev/null | grep 'inet' | grep -v '127.0.0.1' | awk '{print $2}' | sed 's|/.*||g')"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Custom variables
-LENPASTE_ADDRESS="${LENPASTE_ADDRESS:-}"
+LENPASTE_ADDRESS="${LENPASTE_ADDRESS:-80}"
+LENPASTE_ADMIN_NAME="${LENPASTE_ADMIN_NAME:-PasteIT}"
+LENPASTE_ADMIN_MAIL="${LENPASTE_ADMIN_MAIL:-paste-admin@casjay.net}"
 LENPASTE_DB_DRIVER="${LENPASTE_DB_DRIVER:-sqlite3}"
-LENPASTE_DB_CLEANUP_PERIOD="${LENPASTE_DB_CLEANUP_PERIOD:-}"
 LENPASTE_ROBOTS_DISALLOW="${LENPASTE_ROBOTS_DISALLOW:-false}"
-LENPASTE_ADMIN_NAME="${LENPASTE_ADMIN_NAME:-}"
-LENPASTE_ADMIN_MAIL="${LENPASTE_ADMIN_MAIL:-}"
-LENPASTE_BODY_MAX_LENGTH="${LENPASTE_BODY_MAX_LENGTH:-}"
-LENPASTE_TITLE_MAX_LENGTH="${LENPASTE_TITLE_MAX_LENGTH:-}"
-LENPASTE_MAX_PASTE_LIFETIME="${LENPASTE_MAX_PASTE_LIFETIME:-}"
+LENPASTE_BODY_MAX_LENGTH="${LENPASTE_BODY_MAX_LENGTH:-99999}"
+LENPASTE_TITLE_MAX_LENGTH="${LENPASTE_TITLE_MAX_LENGTH:-100}"
+LENPASTE_DB_CLEANUP_PERIOD="${LENPASTE_DB_CLEANUP_PERIOD:-3h}"
 LENPASTE_NEW_PASTES_PER_5MIN="${LENPASTE_NEW_PASTES_PER_5MIN:-}"
-LENPASTE_UI_DEFAULT_LIFETIME="${LENPASTE_UI_DEFAULT_LIFETIME:-}"
+LENPASTE_MAX_PASTE_LIFETIME="${LENPASTE_MAX_PASTE_LIFETIME:-never}"
+LENPASTE_UI_DEFAULT_LIFETIME="${LENPASTE_UI_DEFAULT_LIFETIME:-never}"
 DB_USER="${DB_USER:-}"
 DB_PASS="${DB_PASS:-}"
 DB_HOST="${DB_HOST:-}"
@@ -170,6 +170,7 @@ fi
 # Initialized
 [ -d "/data" ] && touch "/data/.docker_has_run"
 [ -d "/config" ] && touch "/config/.docker_has_run"
+[ -d "/config/db" ] || mkdir -p "/config/db"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # APP Variables overrides
 [ -f "/root/env.sh" ] && . "/root/env.sh"
@@ -178,10 +179,10 @@ fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Actions based on env
 SERVICE_OPTIONS=""
-[ -f "/data/about" ] && SERVICE_OPTIONS+="-server-about /data/about "
-[ -f "/data/rules" ] && SERVICE_OPTIONS+="-server-rules /data/rules "
-[ -f "/data/terms" ] && SERVICE_OPTIONS+="-server-terms /data/terms "
-[ -f "/data/lenpasswd" ] && SERVICE_OPTIONS+="-lenpasswd-le /data/lenpasswd "
+[ -f "/config/html/about" ] && SERVICE_OPTIONS+="-server-about /config/html/about "
+[ -f "/config/html/rules" ] && SERVICE_OPTIONS+="-server-rules /config/html/rules "
+[ -f "/config/html/terms" ] && SERVICE_OPTIONS+="-server-terms /config/html/terms "
+[ -f "/config/lenpasswd" ] && SERVICE_OPTIONS+="-lenpasswd-le /config/lenpasswd "
 [ -z "$LENPASTE_ROBOTS_DISALLOW" ] && SERVICE_OPTIONS+="-robots-disallow "
 [ -n "$LENPASTE_ADDRESS" ] && SERVICE_OPTIONS+="-address $LENPASTE_ADDRESS "
 [ -n "$LENPASTE_DB_DRIVER" ] && SERVICE_OPTIONS+="-db-driver $LENPASTE_DB_DRIVER "
@@ -196,7 +197,7 @@ SERVICE_OPTIONS=""
 if [ "$LENPASTE_DB_DRIVER" = "postgres" ]; then
   LENPASTE_DB_SOURCE="-db-source postgres://$DB_USER:$DB_PASS@$DB_HOST/$DB_URI?sslmode=disable"
 else
-  LENPASTE_DB_SOURCE="-db-source /data/lenpaste.db"
+  LENPASTE_DB_SOURCE="-db-source /config/db/lenpaste.db"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Change to working dir
