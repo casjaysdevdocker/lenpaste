@@ -32,7 +32,7 @@ ARG LICENSE \
   DEFAULT_CONF_DIR \
   DEFAULT_TEMPLATE_DIR
 
-ARG PACK_LIST="bash"
+ARG PACK_LIST="bash tini"
 
 ENV LANG=en_US.UTF-8
 ENV ENV=ENV=~/.bashrc
@@ -52,7 +52,9 @@ RUN set -ex; \
   if [ "${ALPINE_VERSION}" = "edge" ]; then echo "http://dl-cdn.alpinelinux.org/alpine/${ALPINE_VERSION}/testing" >>"/etc/apk/repositories" ; fi ; \
   apk update --update-cache && apk add --no-cache ${PACK_LIST}
 
-RUN echo
+RUN [ -f "$DEFAULT_CONF_DIR/html/about" ] || touch "$DEFAULT_CONF_DIR/html/about" ; \
+  [ -f "$DEFAULT_CONF_DIR/html/rules" ] || touch "$DEFAULT_CONF_DIR/html/rules" ; \
+  [ -f "$DEFAULT_CONF_DIR/html/terms" ] || touch "$DEFAULT_CONF_DIR/html/terms"
 
 RUN echo 'Running cleanup' ; \
   rm -Rf /usr/share/doc/* /usr/share/info/* /tmp/* /var/tmp/* ; \
