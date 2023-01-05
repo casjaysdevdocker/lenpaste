@@ -14,7 +14,7 @@ ARG NODE_VERSION="system"
 ARG NODE_MANAGER="system"
 ARG BUILD_VERSION="latest"
 
-FROM casjaysdevdocker/alpine:latest AS build
+FROM git.lcomrade.su/root/lenpaste:latest AS build
 
 ARG ALPINE_VERSION=v3.16
 
