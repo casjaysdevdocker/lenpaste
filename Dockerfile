@@ -8,8 +8,8 @@ ARG DEFAULT_DATA_DIR="/usr/local/share/template-files/data"
 ARG DEFAULT_CONF_DIR="/usr/local/share/template-files/config"
 ARG DEFAULT_TEMPLATE_DIR="/usr/local/share/template-files/defaults"
 
-ARG SERVICE_PORT=""
-ARG EXPOSE_PORTS=""
+ARG SERVICE_PORT="80"
+ARG EXPOSE_PORTS="80/tcp"
 ARG NODE_VERSION="system"
 ARG NODE_MANAGER="system"
 ARG BUILD_VERSION="latest"
@@ -52,7 +52,8 @@ RUN set -ex; \
   if [ "${ALPINE_VERSION}" = "edge" ]; then echo "http://dl-cdn.alpinelinux.org/alpine/${ALPINE_VERSION}/testing" >>"/etc/apk/repositories" ; fi ; \
   apk update --update-cache && apk add --no-cache ${PACK_LIST}
 
-RUN [ -d "$DEFAULT_CONF_DIR/html" ] || mkdir -p "$DEFAULT_CONF_DIR/html" ; \
+RUN [ -f "/entrypoint.sh" ] && rm -Rf "/entrypoint.sh" ; \
+  [ -d "$DEFAULT_CONF_DIR/html" ] || mkdir -p "$DEFAULT_CONF_DIR/html" ; \
   [ -f "$DEFAULT_CONF_DIR/html/about" ] || touch "$DEFAULT_CONF_DIR/html/about" ; \
   [ -f "$DEFAULT_CONF_DIR/html/rules" ] || touch "$DEFAULT_CONF_DIR/html/rules" ; \
   [ -f "$DEFAULT_CONF_DIR/html/terms" ] || touch "$DEFAULT_CONF_DIR/html/terms"
