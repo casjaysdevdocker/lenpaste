@@ -52,7 +52,8 @@ RUN set -ex; \
   if [ "${ALPINE_VERSION}" = "edge" ]; then echo "http://dl-cdn.alpinelinux.org/alpine/${ALPINE_VERSION}/testing" >>"/etc/apk/repositories" ; fi ; \
   apk update --update-cache && apk add --no-cache ${PACK_LIST}
 
-RUN [ -f "$DEFAULT_CONF_DIR/html/about" ] || touch "$DEFAULT_CONF_DIR/html/about" ; \
+RUN [ -d "$DEFAULT_CONF_DIR/html" ] || mkdir -p "$DEFAULT_CONF_DIR/html" ; \
+  [ -f "$DEFAULT_CONF_DIR/html/about" ] || touch "$DEFAULT_CONF_DIR/html/about" ; \
   [ -f "$DEFAULT_CONF_DIR/html/rules" ] || touch "$DEFAULT_CONF_DIR/html/rules" ; \
   [ -f "$DEFAULT_CONF_DIR/html/terms" ] || touch "$DEFAULT_CONF_DIR/html/terms"
 
