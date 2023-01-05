@@ -112,7 +112,7 @@ DEFAULT_TEMPLATE_DIR="${DEFAULT_TEMPLATE_DIR:-/usr/local/share/template-files/de
 CONTAINER_IP_ADDRESS="$(ip a 2>/dev/null | grep 'inet' | grep -v '127.0.0.1' | awk '{print $2}' | sed 's|/.*||g')"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Custom variables
-LENPASTE_ADDRESS="${LENPASTE_ADDRESS:-80}"
+LENPASTE_ADDRESS="${LENPASTE_ADDRESS:-:80}"
 LENPASTE_ADMIN_NAME="${LENPASTE_ADMIN_NAME:-PasteIT}"
 LENPASTE_ADMIN_MAIL="${LENPASTE_ADMIN_MAIL:-paste-admin@casjay.net}"
 LENPASTE_DB_DRIVER="${LENPASTE_DB_DRIVER:-sqlite3}"
