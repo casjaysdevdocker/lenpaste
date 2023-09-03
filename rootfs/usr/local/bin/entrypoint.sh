@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-##@Version           :  202309030145-git
+##@Version           :  202309031840-git
 # @@Author           :  Jason Hempstead
-# @@Contact          :  git-admin@casjaysdev.pro
+# @@Contact          :  jason@casjaysdev.pro
 # @@License          :  WTFPL
-# @@ReadME           :  entrypoint.sh --help
+# @@ReadME           :  docker-entrypoint --help
 # @@Copyright        :  Copyright: (c) 2023 Jason Hempstead, Casjays Developments
-# @@Created          :  Sunday, Sep 03, 2023 01:45 EDT
-# @@File             :  entrypoint.sh
-# @@Description      :  entrypoint script for docker container
-# @@Changelog        :  newScript
-# @@TODO             :  Refactor code
-# @@Other            :
-# @@Resource         :
+# @@Created          :  Sunday, Sep 03, 2023 18:40 EDT
+# @@File             :  docker-entrypoint
+# @@Description      :  
+# @@Changelog        :  New script
+# @@TODO             :  Better documentation
+# @@Other            :  
+# @@Resource         :  
 # @@Terminal App     :  no
 # @@sudo/root        :  no
 # @@Template         :  other/docker-entrypoint
