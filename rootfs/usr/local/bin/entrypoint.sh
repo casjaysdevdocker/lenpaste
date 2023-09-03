@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-##@Version           :  202309022323-git
+##@Version           :  202309030145-git
 # @@Author           :  Jason Hempstead
-# @@Contact          :  jason@casjaysdev.pro
+# @@Contact          :  git-admin@casjaysdev.pro
 # @@License          :  WTFPL
-# @@ReadME           :  docker-entrypoint --help
+# @@ReadME           :  entrypoint.sh --help
 # @@Copyright        :  Copyright: (c) 2023 Jason Hempstead, Casjays Developments
-# @@Created          :  Saturday, Sep 02, 2023 23:23 EDT
-# @@File             :  docker-entrypoint
-# @@Description      :  
-# @@Changelog        :  New script
-# @@TODO             :  Better documentation
-# @@Other            :  
-# @@Resource         :  
+# @@Created          :  Sunday, Sep 03, 2023 01:45 EDT
+# @@File             :  entrypoint.sh
+# @@Description      :  entrypoint script for docker container
+# @@Changelog        :  newScript
+# @@TODO             :  Refactor code
+# @@Other            :
+# @@Resource         :
 # @@Terminal App     :  no
 # @@sudo/root        :  no
 # @@Template         :  other/docker-entrypoint
@@ -105,6 +105,10 @@ export TZ="${TZ:-${TIMEZONE:-America/New_York}}"
 export HOSTNAME="${FULL_DOMAIN_NAME:-${SERVER_HOSTNAME:-$HOSTNAME}}"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Default directories
+export SSL_DIR="${SSL_DIR:-/config/ssl}"
+export SSL_CA="${SSL_CERT:-/config/ssl/ca.crt}"
+export SSL_KEY="${SSL_KEY:-/config/ssl/localhost.pem}"
+export SSL_CERT="${SSL_CERT:-/config/ssl/localhost.crt}"
 export BACKUP_DIR="${BACKUP_DIR:-/data/backups}"
 export LOCAL_BIN_DIR="${LOCAL_BIN_DIR:-/usr/local/bin}"
 export DEFAULT_DATA_DIR="${DEFAULT_DATA_DIR:-/usr/local/share/template-files/data}"
