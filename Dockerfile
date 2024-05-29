@@ -1,7 +1,7 @@
 # Docker image for lenpaste using the alpine template
 ARG IMAGE_NAME="lenpaste"
 ARG PHP_SERVER="lenpaste"
-ARG BUILD_DATE="Wed May 29 12:45:57 PM EDT 2024"
+ARG BUILD_DATE="Wed May 29 01:45:40 PM EDT 2024"
 ARG LANGUAGE="en_US.UTF-8"
 ARG TIMEZONE="America/New_York"
 ARG WWW_ROOT_DIR="/usr/share/httpd/default"
@@ -22,13 +22,12 @@ ARG IMAGE_REPO="casjaysdevdocker/lenpaste"
 ARG IMAGE_VERSION="latest"
 ARG CONTAINER_VERSION=""
 
-ARG PULL_URL="casjaysdev/alpine"
+ARG PULL_URL="casjaysdev/debian"
 ARG DISTRO_VERSION="${IMAGE_VERSION}"
 ARG BUILD_VERSION="${BUILD_DATE}"
 
-FROM tianon/gosu:latest AS gosu
 FROM ghcr.io/lcomrade/lenpaste:1.3.1 AS lenpaste 
-
+FROM tianon/gosu:latest AS gosu
 FROM ${PULL_URL}:${DISTRO_VERSION} AS build
 ARG USER
 ARG LICENSE
@@ -48,7 +47,7 @@ ARG DEFAULT_TEMPLATE_DIR
 ARG DISTRO_VERSION
 ARG PHP_VERSION
 
-ARG PACK_LIST="bash  \
+ARG PACK_LIST="bash \
   "
 
 ENV ENV=~/.bashrc
@@ -65,6 +64,7 @@ WORKDIR /root
 COPY ./rootfs/usr/local/bin/pkmgr /usr/local/bin/pkmgr
 COPY --from=gosu /usr/local/bin/gosu /usr/local/bin/gosu
 COPY --from=lenpaste /usr/local/bin/* /usr/local/bin/lenpaste
+
 RUN \
   set -ex; \
   echo ""
