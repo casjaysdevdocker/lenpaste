@@ -47,17 +47,16 @@ USER_FILE_PREFIX="/config/secure/auth/user" # directory to save username/passwor
 DATABASE_DIR="${DATABASE_DIR_LENPASTE:-/data/db/lenpaste}"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Additional predefined variables
-[ -f "/config/lenpaste.conf" ] && . /config/lenpaste.conf
 [ -f "/usr/local/etc/docker/init.d/00-lenpaste.sh" ] && . /usr/local/etc/docker/init.d/00-lenpaste.sh
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # port which service is listening on
 SERVICE_PORT="${LENPASTE_ADDRESS:-80}"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # execute command variables
-SERVICE_UID="0"          # set the user id
-SERVICE_USER="root"      # execute command as another user
-EXEC_CMD_BIN="lenpaste"  # command to execute
-EXEC_CMD_ARGS="$RUN_CMD" # command arguments
+SERVICE_UID="0"             # set the user id
+SERVICE_USER="root"         # execute command as another user
+EXEC_CMD_BIN="lenpaste-cli" # command to execute
+EXEC_CMD_ARGS=""            # command arguments
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Is this service a web server
 IS_WEB_SERVER="no"
