@@ -1,7 +1,7 @@
 # Docker image for lenpaste using the alpine template
 ARG IMAGE_NAME="lenpaste"
 ARG PHP_SERVER="lenpaste"
-ARG BUILD_DATE="Sat Sep  2 11:24:32 PM EDT 2023"
+ARG BUILD_DATE="Wed May 29 12:45:57 PM EDT 2024"
 ARG LANGUAGE="en_US.UTF-8"
 ARG TIMEZONE="America/New_York"
 ARG WWW_ROOT_DIR="/usr/share/httpd/default"
@@ -22,8 +22,8 @@ ARG IMAGE_REPO="casjaysdevdocker/lenpaste"
 ARG IMAGE_VERSION="latest"
 ARG CONTAINER_VERSION=""
 
-ARG PULL_URL="git.lcomrade.su/root/lenpaste"
-ARG DISTRO_VERSION="${IMAGE_VERSION}"
+ARG PULL_URL="ghcr.io/lcomrade/lenpaste"
+ARG DISTRO_VERSION="1.3.1"
 ARG BUILD_VERSION="${BUILD_DATE}"
 
 FROM tianon/gosu:latest AS gosu
@@ -46,7 +46,8 @@ ARG DEFAULT_TEMPLATE_DIR
 ARG DISTRO_VERSION
 ARG PHP_VERSION
 
-ARG PACK_LIST="bash bash-completion git curl wget sudo unzip iproute2 ssmtp openssl jq ca-certificates tzdata mailcap ncurses util-linux pciutils usbutils coreutils binutils findutils grep rsync zip certbot tini certbot py3-pip procps net-tools coreutils sed gawk grep attr findutils readline lsof less curl shadow"
+ARG PACK_LIST="bash \
+  "
 
 ENV ENV=~/.bashrc
 ENV SHELL="/bin/sh"
@@ -136,9 +137,7 @@ RUN \
 
 RUN set -ex; \
   echo "Custom Applications"; \
-  export PHP_VERSION=$PHP_VERSION NODE_VERSION=$NODE_VERSION NODE_MANAGER=$NODE_MANAGER; \
-  bash -c "$(curl -q -LSsf "https://github.com/templatemgr/lenpaste/raw/main/install.sh")"; \
-echo ""
+  echo ""
 
 RUN \
   set -ex; \
