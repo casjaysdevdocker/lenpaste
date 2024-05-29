@@ -22,11 +22,13 @@ ARG IMAGE_REPO="casjaysdevdocker/lenpaste"
 ARG IMAGE_VERSION="latest"
 ARG CONTAINER_VERSION=""
 
-ARG PULL_URL="ghcr.io/lcomrade/lenpaste"
-ARG DISTRO_VERSION="1.3.1"
+ARG PULL_URL="casjaysdev/alpine"
+ARG DISTRO_VERSION="${IMAGE_VERSION}"
 ARG BUILD_VERSION="${BUILD_DATE}"
 
 FROM tianon/gosu:latest AS gosu
+FROM ghcr.io/lcomrade/lenpaste:1.3.1 AS source 
+
 FROM ${PULL_URL}:${DISTRO_VERSION} AS build
 ARG USER
 ARG LICENSE
@@ -46,7 +48,7 @@ ARG DEFAULT_TEMPLATE_DIR
 ARG DISTRO_VERSION
 ARG PHP_VERSION
 
-ARG PACK_LIST="bash \
+ARG PACK_LIST="bash  \
   "
 
 ENV ENV=~/.bashrc
@@ -62,7 +64,7 @@ WORKDIR /root
 
 COPY ./rootfs/usr/local/bin/pkmgr /usr/local/bin/pkmgr
 COPY --from=gosu /usr/local/bin/gosu /usr/local/bin/gosu
-
+COPY --from=source /usr/local/bin/lenpaste /usr/local/bin/lenpaste
 RUN \
   set -ex; \
   echo ""
