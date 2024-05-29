@@ -27,7 +27,7 @@ ARG DISTRO_VERSION="${IMAGE_VERSION}"
 ARG BUILD_VERSION="${BUILD_DATE}"
 
 FROM tianon/gosu:latest AS gosu
-FROM ghcr.io/lcomrade/lenpaste:1.3.1 AS source 
+FROM ghcr.io/lcomrade/lenpaste:1.3.1 AS lenpaste 
 
 FROM ${PULL_URL}:${DISTRO_VERSION} AS build
 ARG USER
@@ -64,7 +64,7 @@ WORKDIR /root
 
 COPY ./rootfs/usr/local/bin/pkmgr /usr/local/bin/pkmgr
 COPY --from=gosu /usr/local/bin/gosu /usr/local/bin/gosu
-COPY --from=source /usr/local/bin/lenpaste /usr/local/bin/lenpaste
+COPY --from=lenpaste /usr/local/bin/* /usr/local/bin/lenpaste
 RUN \
   set -ex; \
   echo ""
