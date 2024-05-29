@@ -135,7 +135,7 @@ fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_ADMIN_NAME
 if [ -n "$LENPASTE_ADMIN_NAME" ]; then
-  RUN_CMD+="-admin-name $LENPASTE_ADMIN_NAME "
+  RUN_CMD+="-admin-name \"$LENPASTE_ADMIN_NAME\" "
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_ADMIN_MAIL
