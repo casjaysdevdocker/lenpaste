@@ -38,6 +38,10 @@ LENPASTE_ADMIN_NAME="${LENPASTE_ADMIN_NAME:-}" # Email of the administrator of t
 LENPASTE_UI_DEFAULT_LIFETIME="${LENPASTE_UI_DEFAULT_LIFETIME:--1}" # Lifetime of paste will be set by default in WEB interface. Examples: 10min, 1h, 1d, 2w, 6mon, 1y.
 LENPASTE_UI_DEFAULT_THEME="${LENPASTE_UI_DEFAULT_THEME:-dark}"     # Sets the default theme for the WEB interface. Examples: dark, light.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+DATABASE_SQLITE_FILE="$DATABASE_DIR/lenpaste.db"
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+[ -d "${DATABASE_DIR:-/data/lenpaste}" ] || mkdir -p "${DATABASE_DIR:-/data/lenpaste}"
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 [ -f "/config/lenpaste.conf" ] && . /config/lenpaste.conf
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_ADDRESS
@@ -52,7 +56,7 @@ fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_DB_SOURCE
 if [ -z "$LENPASTE_DB_DRIVER" ] || [ "$LENPASTE_DB_DRIVER" = "sqlite3" ]; then
-  RUN_CMD+="-db-source ${DATABASE_DIR:-/data/lenpaste/database.db} "
+  RUN_CMD+="-db-source ${DATABASE_SQLITE_FILE:-/data/lenpaste/database.db} "
 else
   RUN_CMD+="-db-source $LENPASTE_DB_SOURCE "
 fi
