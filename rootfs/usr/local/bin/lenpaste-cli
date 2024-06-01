@@ -4,7 +4,7 @@ set -e
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 RUN_CMD=""
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-ENPASTE_ADDRESS="${LENPASTE_ADDRESS:-:80}" # ADDRESS:PORT for HTTP server.
+LENPASTE_ADDRESS="${SERVICE_PORT:-:80}" # ADDRESS:PORT for HTTP server.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Database settings
 DATABASE_DIR="${DATABASE_DIR:-/data/db/sqlite}"
