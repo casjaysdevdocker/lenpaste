@@ -1,6 +1,6 @@
 #!/bin/bash
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-set -e
+set -ex
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 RUN_CMD=""
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -47,7 +47,7 @@ DATABASE_SQLITE_FILE="${DATABASE_SQLITE_FILE:-$DATABASE_DIR/lenpaste.db}"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Lenpsswd file
 if [ -f "/config/secure/auth/root/lenpasswd" ]; then
-  RUN_CMD+="-lenpasswd-file /config/secure/auth/root/lenpasswd "
+  RUN_CMD+="-lenpasswd-file /config/secure/auth/root/lenpasswd,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_ADDRESS
@@ -59,116 +59,116 @@ fi
 if [ "$LENPASTE_DB_DRIVER" = "postgres" ]; then
   RUN_CMD+="-db-driver  postgres"
 elif [ "$LENPASTE_DB_DRIVER" = "" ] || [ "$LENPASTE_DB_DRIVER" = "sqlite" ] || [ "$LENPASTE_DB_DRIVER" = "sqlite3" ]; then
-  RUN_CMD+="-db-driver sqlite3 "
+  RUN_CMD+="-db-driver sqlite3,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_DB_SOURCE
 if [ -z "$LENPASTE_DB_DRIVER" ] || [ "$LENPASTE_DB_DRIVER" = "sqlite3" ]; then
-  RUN_CMD+="-db-source ${DATABASE_SQLITE_FILE:-/data/lenpaste/database.db} "
+  RUN_CMD+="-db-source ${DATABASE_SQLITE_FILE:-/data/lenpaste/database.db},"
 else
-  RUN_CMD+="-db-source $LENPASTE_DB_SOURCE "
+  RUN_CMD+="-db-source $LENPASTE_DB_SOURCE,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_DB_MAX_OPEN_CONNS
 if [ -n "$LENPASTE_DB_MAX_OPEN_CONNS" ]; then
-  RUN_CMD+="-db-max-open-conns $LENPASTE_DB_MAX_OPEN_CONNS "
+  RUN_CMD+="-db-max-open-conns $LENPASTE_DB_MAX_OPEN_CONNS,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_DB_MAX_IDLE_CONNS
 if [ -n "$LENPASTE_DB_MAX_IDLE_CONNS" ]; then
-  RUN_CMD+="-db-max-idle-conns $LENPASTE_DB_MAX_IDLE_CONNS "
+  RUN_CMD+="-db-max-idle-conns $LENPASTE_DB_MAX_IDLE_CONNS,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_DB_CLEANUP_PERIOD
 if [ -n "$LENPASTE_DB_CLEANUP_PERIOD" ]; then
-  RUN_CMD+="-db-cleanup-period $LENPASTE_DB_CLEANUP_PERIOD "
+  RUN_CMD+="-db-cleanup-period $LENPASTE_DB_CLEANUP_PERIOD,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_ROBOTS_DISALLOW
 if [ "$LENPASTE_ROBOTS_DISALLOW" = "true" ]; then
-  RUN_CMD+="-robots-disallow "
+  RUN_CMD+="-robots-disallow,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_TITLE_MAX_LENGTH
 if [ -n "$LENPASTE_TITLE_MAX_LENGTH" ]; then
-  RUN_CMD+="-title-max-length $LENPASTE_TITLE_MAX_LENGTH "
+  RUN_CMD+="-title-max-length $LENPASTE_TITLE_MAX_LENGTH,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_BODY_MAX_LENGTH
 if [ -n "$LENPASTE_BODY_MAX_LENGTH" ]; then
-  RUN_CMD+="-body-max-length $LENPASTE_BODY_MAX_LENGTH "
+  RUN_CMD+="-body-max-length $LENPASTE_BODY_MAX_LENGTH,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_MAX_PASTE_LIFETIME
 if [ -n "$LENPASTE_MAX_PASTE_LIFETIME" ]; then
-  RUN_CMD+="-max-paste-lifetime $LENPASTE_MAX_PASTE_LIFETIME "
+  RUN_CMD+="-max-paste-lifetime $LENPASTE_MAX_PASTE_LIFETIME,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Rate limits to get
 if [ -n "$LENPASTE_GET_PASTES_PER_5MIN" ]; then
-  RUN_CMD+="-get-pastes-per-5min $LENPASTE_GET_PASTES_PER_5MIN "
+  RUN_CMD+="-get-pastes-per-5min $LENPASTE_GET_PASTES_PER_5MIN,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 if [ -n "$LENPASTE_GET_PASTES_PER_15MIN" ]; then
-  RUN_CMD+="-get-pastes-per-15min $LENPASTE_GET_PASTES_PER_15MIN "
+  RUN_CMD+="-get-pastes-per-15min $LENPASTE_GET_PASTES_PER_15MIN,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 if [ -n "$LENPASTE_GET_PASTES_PER_1HOUR" ]; then
-  RUN_CMD+="-get-pastes-per-1hour $LENPASTE_GET_PASTES_PER_1HOUR "
+  RUN_CMD+="-get-pastes-per-1hour $LENPASTE_GET_PASTES_PER_1HOUR,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Rate limits to create
 if [ -n "$LENPASTE_NEW_PASTES_PER_5MIN" ]; then
-  RUN_CMD+="-new-pastes-per-5min $LENPASTE_NEW_PASTES_PER_5MIN "
+  RUN_CMD+="-new-pastes-per-5min $LENPASTE_NEW_PASTES_PER_5MIN,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 if [ -n "$LENPASTE_NEW_PASTES_PER_15MIN" ]; then
-  RUN_CMD+="-new-pastes-per-15min $LENPASTE_NEW_PASTES_PER_15MIN "
+  RUN_CMD+="-new-pastes-per-15min $LENPASTE_NEW_PASTES_PER_15MIN,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 if [ -n "$LENPASTE_NEW_PASTES_PER_1HOUR" ]; then
-  RUN_CMD+="-new-pastes-per-1hour $LENPASTE_NEW_PASTES_PER_1HOUR "
+  RUN_CMD+="-new-pastes-per-1hour $LENPASTE_NEW_PASTES_PER_1HOUR,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_ADMIN_NAME
 if [ -n "$LENPASTE_ADMIN_NAME" ]; then
-  RUN_CMD+="-admin-name \"$LENPASTE_ADMIN_NAME\" "
+  RUN_CMD+="-admin-name \"$LENPASTE_ADMIN_NAME\","
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_ADMIN_MAIL
 if [ -n "$LENPASTE_ADMIN_MAIL" ]; then
-  RUN_CMD+="-admin-mail $LENPASTE_ADMIN_MAIL "
+  RUN_CMD+="-admin-mail $LENPASTE_ADMIN_MAIL,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_UI_DEFAULT_LIFETIME
 if [ -n "$LENPASTE_UI_DEFAULT_LIFETIME" ]; then
-  RUN_CMD+="-ui-default-lifetime $LENPASTE_UI_DEFAULT_LIFETIME "
+  RUN_CMD+="-ui-default-lifetime $LENPASTE_UI_DEFAULT_LIFETIME,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_UI_DEFAULT_THEME
 if [ -n "$LENPASTE_UI_DEFAULT_THEME" ]; then
-  RUN_CMD+="-ui-default-theme $LENPASTE_UI_DEFAULT_THEME "
+  RUN_CMD+="-ui-default-theme $LENPASTE_UI_DEFAULT_THEME,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Server about
 if [ -f "/data/lenpaste/html/about" ]; then
-  RUN_CMD+="-server-about /data/lenpaste/html/about "
+  RUN_CMD+="-server-about /data/lenpaste/html/about,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Server rules
 if [ -f "/data/lenpaste/html/rules" ]; then
-  RUN_CMD+="-server-rules /data/lenpaste/html/rules "
+  RUN_CMD+="-server-rules /data/lenpaste/html/rules,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Server terms of use
 if [ -f "/data/lenpaste/html/terms" ]; then
-  RUN_CMD+="-server-terms /data/lenpaste/html/terms "
+  RUN_CMD+="-server-terms /data/lenpaste/html/terms,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # External UI themes
 if [ -d "/data/lenpaste/html/themes" ]; then
-  RUN_CMD+="-ui-themes-dir /data/lenpaste/html/themes "
+  RUN_CMD+="-ui-themes-dir /data/lenpaste/html/themes,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-exec /usr/local/bin/lenpaste $RUN_CMD
+exec /usr/local/bin/lenpaste "${RUN_CMD/,/ }"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
