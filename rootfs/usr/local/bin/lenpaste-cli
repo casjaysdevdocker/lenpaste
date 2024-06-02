@@ -1,6 +1,6 @@
 #!/bin/bash
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-set -ex
+set -e
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 LENPASTE_ADDRESS="${SERVICE_PORT:-:80}" # ADDRESS:PORT for HTTP server.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -58,7 +58,7 @@ fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_DB_DRIVER
 if [ "$LENPASTE_DB_DRIVER" = "postgres" ]; then
-  RUN_CMD+="-db-driver  postgres"
+  RUN_CMD+="-db-driver  postgres,"
 elif [ "$LENPASTE_DB_DRIVER" = "" ] || [ "$LENPASTE_DB_DRIVER" = "sqlite" ] || [ "$LENPASTE_DB_DRIVER" = "sqlite3" ]; then
   RUN_CMD+="-db-driver sqlite3,"
 fi
@@ -171,7 +171,9 @@ if [ -d "/data/lenpaste/html/themes" ]; then
   RUN_CMD+="-ui-themes-dir /data/lenpaste/html/themes,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-OPTIONS="${RUN_CMD/,/ }"
+OPTIONS="${RUN_CMD//,/ }"
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+echo "executing lenpaste $OPTIONS"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 exec /usr/local/bin/lenpaste $OPTIONS
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
