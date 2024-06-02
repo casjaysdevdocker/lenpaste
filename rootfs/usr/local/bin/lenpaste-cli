@@ -41,8 +41,14 @@ LENPASTE_UI_DEFAULT_THEME="${LENPASTE_UI_DEFAULT_THEME:-dark}"     # Sets the de
 DATABASE_SQLITE_FILE="${DATABASE_SQLITE_FILE:-$DATABASE_DIR/lenpaste.db}"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 [ -d "${DATABASE_DIR:-/data/lenpaste}" ] || mkdir -p "${DATABASE_DIR:-/data/lenpaste}"
+[ -d "/data/lenpaste/html" ] || mkdir -p "/data/lenpaste/html"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 [ -f "/config/lenpaste.conf" ] && . /config/lenpaste.conf
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Lenpsswd file
+if [ -f "/config/secure/auth/root/lenpasswd" ]; then
+  RUN_CMD+="-lenpasswd-file /config/secure/auth/root/lenpasswd "
+fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_ADDRESS
 if [ -n "$LENPASTE_ADDRESS" ]; then
@@ -122,21 +128,6 @@ if [ -n "$LENPASTE_NEW_PASTES_PER_1HOUR" ]; then
   RUN_CMD+="-new-pastes-per-1hour $LENPASTE_NEW_PASTES_PER_1HOUR "
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Server about
-if [ -f "/data/lenpaste/html/about" ]; then
-  RUN_CMD+="-server-about /data/lenpaste/html/about "
-fi
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Server rules
-if [ -f "/data/lenpaste/html/rules" ]; then
-  RUN_CMD+="-server-rules /data/lenpaste/html/rules "
-fi
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Server terms of use
-if [ -f "/data/lenpaste/html/terms" ]; then
-  RUN_CMD+="-server-terms /data/lenpaste/html/terms "
-fi
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_ADMIN_NAME
 if [ -n "$LENPASTE_ADMIN_NAME" ]; then
   RUN_CMD+="-admin-name \"$LENPASTE_ADMIN_NAME\" "
@@ -157,14 +148,24 @@ if [ -n "$LENPASTE_UI_DEFAULT_THEME" ]; then
   RUN_CMD+="-ui-default-theme $LENPASTE_UI_DEFAULT_THEME "
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# External UI themes
-if [ -d "/data/themes" ]; then
-  RUN_CMD+="-ui-themes-dir /data/themes "
+# Server about
+if [ -f "/data/lenpaste/html/about" ]; then
+  RUN_CMD+="-server-about /data/lenpaste/html/about "
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Lenpsswd file
-if [ -f "/data/lenpasswd" ]; then
-  RUN_CMD+="-lenpasswd-file /data/lenpasswd "
+# Server rules
+if [ -f "/data/lenpaste/html/rules" ]; then
+  RUN_CMD+="-server-rules /data/lenpaste/html/rules "
+fi
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Server terms of use
+if [ -f "/data/lenpaste/html/terms" ]; then
+  RUN_CMD+="-server-terms /data/lenpaste/html/terms "
+fi
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# External UI themes
+if [ -d "/data/lenpaste/html/themes" ]; then
+  RUN_CMD+="-ui-themes-dir /data/lenpaste/html/themes "
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 exec /usr/local/bin/lenpaste $RUN_CMD

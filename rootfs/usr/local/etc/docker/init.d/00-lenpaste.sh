@@ -47,7 +47,7 @@ USER_FILE_PREFIX="/config/secure/auth/user" # directory to save username/passwor
 DATABASE_DIR="${DATABASE_DIR_LENPASTE:-/data/db/lenpaste}"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Additional predefined variables
-[ -f "/usr/local/etc/docker/init.d/00-lenpaste.sh" ] && . /usr/local/etc/docker/init.d/00-lenpaste.sh
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # port which service is listening on
 SERVICE_PORT="${LENPASTE_ADDRESS:-80}"
