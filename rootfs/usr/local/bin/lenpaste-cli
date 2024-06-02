@@ -2,8 +2,6 @@
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 set -ex
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-RUN_CMD=""
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 LENPASTE_ADDRESS="${SERVICE_PORT:-:80}" # ADDRESS:PORT for HTTP server.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Database settings
@@ -45,6 +43,9 @@ DATABASE_SQLITE_FILE="${DATABASE_SQLITE_FILE:-$DATABASE_DIR/lenpaste.db}"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 [ -f "/config/lenpaste.conf" ] && . /config/lenpaste.conf
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# set empty
+RUN_CMD=""
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Lenpsswd file
 if [ -f "/config/secure/auth/root/lenpasswd" ]; then
   RUN_CMD+="-lenpasswd-file /config/secure/auth/root/lenpasswd,"
@@ -52,7 +53,7 @@ fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_ADDRESS
 if [ -n "$LENPASTE_ADDRESS" ]; then
-  RUN_CMD+="-address $LENPASTE_ADDRESS"
+  RUN_CMD+="-address $LENPASTE_ADDRESS,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_DB_DRIVER
