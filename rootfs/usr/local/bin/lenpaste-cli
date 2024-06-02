@@ -171,5 +171,7 @@ if [ -d "/data/lenpaste/html/themes" ]; then
   RUN_CMD+="-ui-themes-dir /data/lenpaste/html/themes,"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-exec /usr/local/bin/lenpaste "${RUN_CMD/,/ }"
+OPTIONS="${RUN_CMD/,/ }"
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+exec /usr/local/bin/lenpaste $OPTIONS
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
