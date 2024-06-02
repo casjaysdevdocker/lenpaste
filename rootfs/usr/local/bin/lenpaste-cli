@@ -23,9 +23,9 @@ LENPASTE_BODY_MAX_LENGTH="${LENPASTE_BODY_MAX_LENGTH:-99999999999999}"  # Maximu
 LENPASTE_MAX_PASTE_LIFETIME="${LENPASTE_MAX_PASTE_LIFETIME:-unlimited}" # Maximum lifetime of the paste. Examples: 10m, 1h 30m, 12h, 7w, 30d, 365d.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Rate limits
-LENPASTE_GET_PASTES_PER_5MIN="${LENPASTE_GET_PASTES_PER_5MIN:-0}"     # Maximum number of pastes that can be VIEWED in 5 minutes from one IP. If 0 disable rate-limit.
+LENPASTE_GET_PASTES_PER_5MIN="${LENPASTE_GET_PASTES_PER_5MIN:-100}"   # Maximum number of pastes that can be VIEWED in 5 minutes from one IP. If 0 disable rate-limit.
 LENPASTE_GET_PASTES_PER_15MIN="${LENPASTE_GET_PASTES_PER_15MIN:-100}" # Maximum number of pastes that can be VIEWED in 15 minutes from one IP. If 0 disable rate-limit.
-LENPASTE_GET_PASTES_PER_1HOUR="${LENPASTE_GET_PASTES_PER_1HOUR:-500}" # Maximum number of pastes that can be VIEWED in 1 hour from one IP. If 0 disable rate-limit.
+LENPASTE_GET_PASTES_PER_1HOUR="${LENPASTE_GET_PASTES_PER_1HOUR:-0}"   # Maximum number of pastes that can be VIEWED in 1 hour from one IP. If 0 disable rate-limit.
 LENPASTE_NEW_PASTES_PER_5MIN="${LENPASTE_NEW_PASTES_PER_5MIN:-15}"    # Maximum number of pastes that can be CREATED in 5 minutes from one IP. If 0 disable rate-limit.
 LENPASTE_NEW_PASTES_PER_15MIN="${LENPASTE_NEW_PASTES_PER_15MIN:-30}"  # Maximum number of pastes that can be CREATED in 15 minutes from one IP. If 0 disable rate-limit.
 LENPASTE_NEW_PASTES_PER_1HOUR="${LENPASTE_NEW_PASTES_PER_1HOUR:-40}"  # Maximum number of pastes that can be CREATED in 1 hour from one IP. If 0 disable rate-limit.
@@ -56,8 +56,10 @@ if [ -n "$LENPASTE_ADDRESS" ]; then
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_DB_DRIVER
-if [ -n "$LENPASTE_DB_DRIVER" ]; then
-  RUN_CMD+="-db-driver $LENPASTE_DB_DRIVER "
+if [ "$LENPASTE_DB_DRIVER" = "postgres" ]; then
+  RUN_CMD+="-db-driver  postgres"
+elif [ "$LENPASTE_DB_DRIVER" = "" ] || [ "$LENPASTE_DB_DRIVER" = "sqlite" ] || [ "$LENPASTE_DB_DRIVER" = "sqlite3" ]; then
+  RUN_CMD+="-db-driver sqlite3 "
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # LENPASTE_DB_SOURCE
