@@ -18,8 +18,8 @@ LENPASTE_DB_CLEANUP_PERIOD="${LENPASTE_DB_CLEANUP_PERIOD:-3h}" # Interval at whi
 LENPASTE_ROBOTS_DISALLOW="${LENPASTE_ROBOTS_DISALLOW:-false}" # Prohibits search engine crawlers from indexing site using robots.txt file.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Storage limits
-LENPASTE_TITLE_MAX_LENGTH="${LENPASTE_TITLE_MAX_LENGTH:-100}"           # Maximum length of the paste title. If 0 disable title, if -1 disable length limit.
-LENPASTE_BODY_MAX_LENGTH="${LENPASTE_BODY_MAX_LENGTH:-100000}"          # Maximum length of the paste body. If -1 disable length limit. Can't be -1.
+LENPASTE_TITLE_MAX_LENGTH="${LENPASTE_TITLE_MAX_LENGTH:-120}"           # Maximum length of the paste title. If 0 disable title, if -1 disable length limit.
+LENPASTE_BODY_MAX_LENGTH="${LENPASTE_BODY_MAX_LENGTH:-99999999999999}"  # Maximum length of the paste body. If -1 disable length limit. Can't be -1.
 LENPASTE_MAX_PASTE_LIFETIME="${LENPASTE_MAX_PASTE_LIFETIME:-unlimited}" # Maximum lifetime of the paste. Examples: 10m, 1h 30m, 12h, 7w, 30d, 365d.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Rate limits
@@ -38,7 +38,7 @@ LENPASTE_ADMIN_NAME="${LENPASTE_ADMIN_NAME:-}" # Email of the administrator of t
 LENPASTE_UI_DEFAULT_LIFETIME="${LENPASTE_UI_DEFAULT_LIFETIME:--1}" # Lifetime of paste will be set by default in WEB interface. Examples: 10min, 1h, 1d, 2w, 6mon, 1y.
 LENPASTE_UI_DEFAULT_THEME="${LENPASTE_UI_DEFAULT_THEME:-dark}"     # Sets the default theme for the WEB interface. Examples: dark, light.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-DATABASE_SQLITE_FILE="$DATABASE_DIR/lenpaste.db"
+DATABASE_SQLITE_FILE="${DATABASE_SQLITE_FILE:-$DATABASE_DIR/lenpaste.db}"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 [ -d "${DATABASE_DIR:-/data/lenpaste}" ] || mkdir -p "${DATABASE_DIR:-/data/lenpaste}"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
