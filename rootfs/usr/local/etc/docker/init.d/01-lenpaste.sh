@@ -146,7 +146,7 @@ user_pass="${LENPASTE_USER_PASS_WORD:-}" # normal user password
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Additional variables
-LENPASTE_ADDRESS="${SERVICE_PORT:-:80}"                                 # ADDRESS:PORT for HTTP server.
+LENPASTE_ADDRESS="${LENPASTE_ADDRESS:-}"                             # ADDRESS:PORT for HTTP server.
 DATABASE_DIR="${DATABASE_DIR:-/data/db/sqlite}"                         # Database location
 LENPASTE_DB_DRIVER="${LENPASTE_DB_DRIVER:-sqlite3}"                     # Currently supported drivers: 'sqlite3' and 'postgres'.
 LENPASTE_DB_SOURCE="${LENPASTE_DB_SOURCE:-$DATABASE_DIR}"               # DB source.
@@ -185,7 +185,7 @@ CMD_ENV=""
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Overwrite based on file/directory
 if ! echo "$LENPASTE_ADDRESS" | grep -q ':[0-9][0-9]'; then
-LENPASTE_ADDRESS="$LENPASTE_ADDRESS:$SERVICE_PORT"
+LENPASTE_ADDRESS="${LENPASTE_ADDRESS:-$HOSTNAME}:$SERVICE_PORT"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Per Application Variables or imports
@@ -245,12 +245,12 @@ __update_conf_files() {
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # define actions
+  if [ -n "$LENPASTE_ADDRESS" ]; then
+    RUN_CMD+="-address $LENPASTE_ADDRESS,"
+  fi
   [ -d "$DATA_DIR/html" ] || mkdir -p "$DATA_DIR/html"
   if [ -f "/config/secure/auth/root/lenpasswd" ]; then
     RUN_CMD+="-lenpasswd-file /config/secure/auth/root/lenpasswd,"
-  fi
-  if [ -n "$LENPASTE_ADDRESS" ]; then
-    RUN_CMD+="-address $LENPASTE_ADDRESS,"
   fi
   if [ "$LENPASTE_DB_DRIVER" = "postgres" ]; then
     RUN_CMD+="-db-driver  postgres,"

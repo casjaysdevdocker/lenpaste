@@ -10,7 +10,6 @@ ARG DEFAULT_FILE_DIR="/usr/local/share/template-files"
 ARG DEFAULT_DATA_DIR="/usr/local/share/template-files/data"
 ARG DEFAULT_CONF_DIR="/usr/local/share/template-files/config"
 ARG DEFAULT_TEMPLATE_DIR="/usr/local/share/template-files/defaults"
-ARG LENPATE_VERSION="1.3.1"
 
 ARG USER="root"
 ARG SHELL_OPTS="set -e -o pipefail"
@@ -29,8 +28,8 @@ ARG PULL_URL="casjaysdev/alpine"
 ARG DISTRO_VERSION="${IMAGE_VERSION}"
 ARG BUILD_VERSION="${BUILD_DATE}"
 
-FROM ghcr.io/lcomrade/lenpaste:${LENPATE_VERSION} AS lenpaste 
 FROM tianon/gosu:latest AS gosu
+FROM ghcr.io/lcomrade/lenpaste:${LENPATE_VERSION:-1.3.1} AS lenpaste 
 FROM ${PULL_URL}:${DISTRO_VERSION} AS build
 ARG TZ
 ARG USER
