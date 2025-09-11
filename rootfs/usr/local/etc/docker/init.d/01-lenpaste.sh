@@ -108,7 +108,7 @@ RUNAS_USER="root" # normally root
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # execute command variables - keep single quotes variables will be expanded later
 EXEC_CMD_BIN='lenpaste'               # command to execute
-EXEC_CMD_ARGS='$LENPASTE_RUN_CMMANDS' # command arguments
+EXEC_CMD_ARGS='$LENPASTE_RUN_COMMANDS' # command arguments
 EXEC_PRE_SCRIPT=''                    # execute script before
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Is this service a web server
@@ -184,7 +184,7 @@ ADDITIONAL_CONFIG_DIRS=""
 CMD_ENV=""
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Overwrite based on file/directory
-if ! echo "$LENPASTE_ADDRESS" | grep -q ":[0-9][0-9]"; then
+if ! echo "$LENPASTE_ADDRESS" | grep -q ':[0-9][0-9]'; then
 LENPASTE_ADDRESS="$LENPASTE_ADDRESS:$SERVICE_PORT"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -325,7 +325,7 @@ __update_conf_files() {
   if [ -d "/data/lenpaste/html/themes" ]; then
     RUN_CMD+="-ui-themes-dir /data/lenpaste/html/themes,"
   fi
-  LENPASTE_RUN_CMMANDS="${RUN_CMD//,/ }"
+  LENPASTE_RUN_COMMANDS="${RUN_CMD//,/ }"
   # exit function
   return $exitCode
 }
