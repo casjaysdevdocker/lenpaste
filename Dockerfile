@@ -24,12 +24,12 @@ ARG IMAGE_REPO="casjaysdevdocker/lenpaste"
 ARG IMAGE_VERSION="latest"
 ARG CONTAINER_VERSION=""
 
-ARG PULL_URL="casjaysdev/alpine"
+ARG PULL_URL="casjaysdev/debian"
 ARG DISTRO_VERSION="${IMAGE_VERSION}"
 ARG BUILD_VERSION="${BUILD_DATE}"
 
 FROM tianon/gosu:latest AS gosu
-FROM ghcr.io/lcomrade/lenpaste:${LENPATE_VERSION:-1.3.1} AS lenpaste 
+FROM ghcr.io/lcomrade/lenpaste:${LENPASTE_VERSION:-1.3.1} AS lenpaste 
 FROM ${PULL_URL}:${DISTRO_VERSION} AS build
 ARG TZ
 ARG USER

@@ -460,7 +460,7 @@ ports)
   # show running processes
 procs)
   shift 1
-  ps="$(__ps axco command | grep -vE 'COMMAND|grep|ps' | sort -u || grep '^' || echo '')"
+  ps="$(__ps axco command | grep -avE 'COMMAND|grep|ps' | sort -u || grep -a '^' || echo '')"
   [ -n "$ps" ] && printf '%s\n%s\n' "Found the following processes" "$ps" | tr '\n' ' '
   exit $?
   ;;

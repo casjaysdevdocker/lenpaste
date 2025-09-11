@@ -146,7 +146,7 @@ user_pass="${LENPASTE_USER_PASS_WORD:-}" # normal user password
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Additional variables
-LENPASTE_ADDRESS="${LENPASTE_ADDRESS:-}"                             # ADDRESS:PORT for HTTP server.
+LENPASTE_ADDRESS="${LENPASTE_ADDRESS:-:$SERVICE_PORT}"                             # ADDRESS:PORT for HTTP server.
 DATABASE_DIR="${DATABASE_DIR:-/data/db/sqlite}"                         # Database location
 LENPASTE_DB_DRIVER="${LENPASTE_DB_DRIVER:-sqlite3}"                     # Currently supported drivers: 'sqlite3' and 'postgres'.
 LENPASTE_DB_SOURCE="${LENPASTE_DB_SOURCE:-$DATABASE_DIR}"               # DB source.
@@ -164,7 +164,7 @@ LENPASTE_NEW_PASTES_PER_5MIN="${LENPASTE_NEW_PASTES_PER_5MIN:-15}"      # Maximu
 LENPASTE_NEW_PASTES_PER_15MIN="${LENPASTE_NEW_PASTES_PER_15MIN:-30}"    # Maximum number of pastes that can be CREATED in 15 minutes from one IP. If 0 disable rate-limit.
 LENPASTE_NEW_PASTES_PER_1HOUR="${LENPASTE_NEW_PASTES_PER_1HOUR:-40}"    # Maximum number of pastes that can be CREATED in 1 hour from one IP. If 0 disable rate-limit.
 LENPASTE_ADMIN_NAME="${LENPASTE_ADMIN_NAME:-}"                          # Name of the administrator of this server.
-LENPASTE_ADMIN_NAME="${LENPASTE_ADMIN_NAME:-}"                          # Email of the administrator of this server.
+LENPASTE_ADMIN_MAIL="${LENPASTE_ADMIN_MAIL:-}"                          # Email of the administrator of this server.
 LENPASTE_UI_DEFAULT_LIFETIME="${LENPASTE_UI_DEFAULT_LIFETIME:--1}"      # Lifetime of paste will be set by default in WEB interface. Examples: 10min, 1h, 1d, 2w, 6mon, 1y.
 LENPASTE_UI_DEFAULT_THEME="${LENPASTE_UI_DEFAULT_THEME:-dark}"          # Sets the default theme for the WEB interface. Examples: dark, light.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -184,7 +184,7 @@ ADDITIONAL_CONFIG_DIRS=""
 CMD_ENV=""
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Overwrite based on file/directory
-if ! echo "$LENPASTE_ADDRESS" | grep -q ':[0-9][0-9]'; then
+if ! echo "$LENPASTE_ADDRESS" | grep -aq ':[0-9][0-9]'; then
 LENPASTE_ADDRESS="${LENPASTE_ADDRESS:-$HOSTNAME}:$SERVICE_PORT"
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -246,86 +246,86 @@ __update_conf_files() {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # define actions
   if [ -n "$LENPASTE_ADDRESS" ]; then
-    RUN_CMD+="-address $LENPASTE_ADDRESS,"
+    RUN_CMD+="-address $LENPASTE_ADDRESS "
   fi
   [ -d "$DATA_DIR/html" ] || mkdir -p "$DATA_DIR/html"
   if [ -f "/config/secure/auth/root/lenpasswd" ]; then
-    RUN_CMD+="-lenpasswd-file /config/secure/auth/root/lenpasswd,"
+    RUN_CMD+="-lenpasswd-file /config/secure/auth/root/lenpasswd "
   fi
   if [ "$LENPASTE_DB_DRIVER" = "postgres" ]; then
-    RUN_CMD+="-db-driver  postgres,"
+    RUN_CMD+="-db-driver postgres "
   elif [ "$LENPASTE_DB_DRIVER" = "" ] || [ "$LENPASTE_DB_DRIVER" = "sqlite" ] || [ "$LENPASTE_DB_DRIVER" = "sqlite3" ]; then
-    RUN_CMD+="-db-driver sqlite3,"
+    RUN_CMD+="-db-driver sqlite3 "
   fi
   if [ -z "$LENPASTE_DB_DRIVER" ] || [ "$LENPASTE_DB_DRIVER" = "sqlite3" ]; then
-    RUN_CMD+="-db-source ${DATABASE_SQLITE_FILE:-/data/lenpaste/database.db},"
+    RUN_CMD+="-db-source ${DATABASE_SQLITE_FILE:-/data/lenpaste/database.db} "
   else
-    RUN_CMD+="-db-source $LENPASTE_DB_SOURCE,"
+    RUN_CMD+="-db-source $LENPASTE_DB_SOURCE "
   fi
   if [ -n "$LENPASTE_DB_MAX_OPEN_CONNS" ]; then
-    RUN_CMD+="-db-max-open-conns $LENPASTE_DB_MAX_OPEN_CONNS,"
+    RUN_CMD+="-db-max-open-conns $LENPASTE_DB_MAX_OPEN_CONNS "
   fi
   if [ -n "$LENPASTE_DB_MAX_IDLE_CONNS" ]; then
-    RUN_CMD+="-db-max-idle-conns $LENPASTE_DB_MAX_IDLE_CONNS,"
+    RUN_CMD+="-db-max-idle-conns $LENPASTE_DB_MAX_IDLE_CONNS "
   fi
   if [ -n "$LENPASTE_DB_CLEANUP_PERIOD" ]; then
-    RUN_CMD+="-db-cleanup-period $LENPASTE_DB_CLEANUP_PERIOD,"
+    RUN_CMD+="-db-cleanup-period $LENPASTE_DB_CLEANUP_PERIOD "
   fi
   if [ "$LENPASTE_ROBOTS_DISALLOW" = "true" ]; then
-    RUN_CMD+="-robots-disallow,"
+    RUN_CMD+="-robots-disallow "
   fi
   if [ -n "$LENPASTE_TITLE_MAX_LENGTH" ]; then
-    RUN_CMD+="-title-max-length $LENPASTE_TITLE_MAX_LENGTH,"
+    RUN_CMD+="-title-max-length $LENPASTE_TITLE_MAX_LENGTH "
   fi
   if [ -n "$LENPASTE_BODY_MAX_LENGTH" ]; then
-    RUN_CMD+="-body-max-length $LENPASTE_BODY_MAX_LENGTH,"
+    RUN_CMD+="-body-max-length $LENPASTE_BODY_MAX_LENGTH "
   fi
   if [ -n "$LENPASTE_MAX_PASTE_LIFETIME" ]; then
-    RUN_CMD+="-max-paste-lifetime $LENPASTE_MAX_PASTE_LIFETIME,"
+    RUN_CMD+="-max-paste-lifetime $LENPASTE_MAX_PASTE_LIFETIME "
   fi
   if [ -n "$LENPASTE_GET_PASTES_PER_5MIN" ]; then
-    RUN_CMD+="-get-pastes-per-5min $LENPASTE_GET_PASTES_PER_5MIN,"
+    RUN_CMD+="-get-pastes-per-5min $LENPASTE_GET_PASTES_PER_5MIN "
   fi
   if [ -n "$LENPASTE_GET_PASTES_PER_15MIN" ]; then
-    RUN_CMD+="-get-pastes-per-15min $LENPASTE_GET_PASTES_PER_15MIN,"
+    RUN_CMD+="-get-pastes-per-15min $LENPASTE_GET_PASTES_PER_15MIN "
   fi
   if [ -n "$LENPASTE_GET_PASTES_PER_1HOUR" ]; then
-    RUN_CMD+="-get-pastes-per-1hour $LENPASTE_GET_PASTES_PER_1HOUR,"
+    RUN_CMD+="-get-pastes-per-1hour $LENPASTE_GET_PASTES_PER_1HOUR "
   fi
   if [ -n "$LENPASTE_NEW_PASTES_PER_5MIN" ]; then
-    RUN_CMD+="-new-pastes-per-5min $LENPASTE_NEW_PASTES_PER_5MIN,"
+    RUN_CMD+="-new-pastes-per-5min $LENPASTE_NEW_PASTES_PER_5MIN "
   fi
   if [ -n "$LENPASTE_NEW_PASTES_PER_15MIN" ]; then
-    RUN_CMD+="-new-pastes-per-15min $LENPASTE_NEW_PASTES_PER_15MIN,"
+    RUN_CMD+="-new-pastes-per-15min $LENPASTE_NEW_PASTES_PER_15MIN "
   fi
   if [ -n "$LENPASTE_NEW_PASTES_PER_1HOUR" ]; then
-    RUN_CMD+="-new-pastes-per-1hour $LENPASTE_NEW_PASTES_PER_1HOUR,"
+    RUN_CMD+="-new-pastes-per-1hour $LENPASTE_NEW_PASTES_PER_1HOUR "
   fi
   if [ -n "$LENPASTE_ADMIN_NAME" ]; then
-    RUN_CMD+="-admin-name \"$LENPASTE_ADMIN_NAME\","
+    RUN_CMD+="-admin-name $LENPASTE_ADMIN_NAME "
   fi
   if [ -n "$LENPASTE_ADMIN_MAIL" ]; then
-    RUN_CMD+="-admin-mail $LENPASTE_ADMIN_MAIL,"
+    RUN_CMD+="-admin-mail $LENPASTE_ADMIN_MAIL "
   fi
   if [ -n "$LENPASTE_UI_DEFAULT_LIFETIME" ]; then
-    RUN_CMD+="-ui-default-lifetime $LENPASTE_UI_DEFAULT_LIFETIME,"
+    RUN_CMD+="-ui-default-lifetime $LENPASTE_UI_DEFAULT_LIFETIME "
   fi
   if [ -n "$LENPASTE_UI_DEFAULT_THEME" ]; then
-    RUN_CMD+="-ui-default-theme $LENPASTE_UI_DEFAULT_THEME,"
+    RUN_CMD+="-ui-default-theme $LENPASTE_UI_DEFAULT_THEME "
   fi
   if [ -f "/data/lenpaste/html/about" ]; then
-    RUN_CMD+="-server-about /data/lenpaste/html/about,"
+    RUN_CMD+="-server-about /data/lenpaste/html/about "
   fi
   if [ -f "/data/lenpaste/html/rules" ]; then
-    RUN_CMD+="-server-rules /data/lenpaste/html/rules,"
+    RUN_CMD+="-server-rules /data/lenpaste/html/rules "
   fi
   if [ -f "/data/lenpaste/html/terms" ]; then
-    RUN_CMD+="-server-terms /data/lenpaste/html/terms,"
+    RUN_CMD+="-server-terms /data/lenpaste/html/terms "
   fi
   if [ -d "/data/lenpaste/html/themes" ]; then
-    RUN_CMD+="-ui-themes-dir /data/lenpaste/html/themes,"
+    RUN_CMD+="-ui-themes-dir /data/lenpaste/html/themes "
   fi
-  LENPASTE_RUN_COMMANDS="${RUN_CMD//,/ }"
+  LENPASTE_RUN_COMMANDS="$RUN_CMD"
   # exit function
   return $exitCode
 }
@@ -387,7 +387,7 @@ __post_execute() {
   ) 2>"/dev/stderr" | tee -p -a "$LOG_DIR/init.txt" &
   pid=$!
   # set exitCode
-  ps ax | awk '{print $1}' | grep -v grep | grep -q "$execPid$" && retVal=0 || retVal=10
+  ps ax | awk '{print $1}' | grep -av grep | grep -aq "$execPid$" && retVal=0 || retVal=10
   return $retVal
 }
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -491,7 +491,7 @@ __run_start_script() {
       __post_execute 2>"/dev/stderr" | tee -p -a "$LOG_DIR/init.txt" &
       if [ "$RESET_ENV" = "yes" ]; then
         env_command="$(echo "env -i HOME=\"$home\" LC_CTYPE=\"$lc_type\" PATH=\"$path\" HOSTNAME=\"$sysname\" USER=\"${SERVICE_USER:-$RUNAS_USER}\" $extra_env")"
-        execute_command="$(__trim "$su_exec $env_command $cmd_exec")"
+        execute_command="$su_exec $env_command $cmd_exec"
         if [ ! -f "$START_SCRIPT" ]; then
           cat <<EOF >"$START_SCRIPT"
 #!/usr/bin/env bash
@@ -505,7 +505,7 @@ SERVICE_PID_FILE="$SERVICE_PID_FILE"
 $execute_command 2>"/dev/stderr" >>"$LOG_DIR/$SERVICE_NAME.log" &
 execPid=\$!
 sleep 10
-checkPID="\$(ps ax | awk '{print \$1}' | grep -v grep | grep "\$execPid$" || false)"
+checkPID="\$(ps ax | awk '{print \$1}' | grep -av grep | grep -a "\$execPid$" || false)"
 [ -n "\$execPid"  ] && [ -n "\$checkPID" ] && echo "\$execPid" >"\$SERVICE_PID_FILE" && retVal=0 || retVal=10
 [ "\$retVal" = 0 ] && echo "\$cmd has been started" || echo "\$cmd has failed to start - args: $args" >&2
 exit \$retVal
@@ -514,7 +514,7 @@ EOF
         fi
       else
         if [ ! -f "$START_SCRIPT" ]; then
-          execute_command="$(__trim "$su_exec $cmd_exec")"
+          execute_command="$su_exec $cmd_exec"
           cat <<EOF >"$START_SCRIPT"
 #!/usr/bin/env bash
 trap 'exitCode=\$?;[ \$exitCode -ne 0 ] && [ -f "\$SERVICE_PID_FILE" ] && rm -Rf "\$SERVICE_PID_FILE";exit \$exitCode' EXIT
@@ -527,7 +527,7 @@ SERVICE_PID_FILE="$SERVICE_PID_FILE"
 $execute_command 2>>"/dev/stderr" >>"$LOG_DIR/$SERVICE_NAME.log" &
 execPid=\$!
 sleep 10
-checkPID="\$(ps ax | awk '{print \$1}' | grep -v grep | grep "\$execPid$" || false)"
+checkPID="\$(ps ax | awk '{print \$1}' | grep -av grep | grep -a "\$execPid$" || false)"
 [ -n "\$execPid"  ] && [ -n "\$checkPID" ] && echo "\$execPid" >"\$SERVICE_PID_FILE" && retVal=0 || retVal=10
 [ "\$retVal" = 0 ] && echo "\$cmd has been started" || echo "\$cmd has failed to start - args: $args" >&2
 exit \$retVal
