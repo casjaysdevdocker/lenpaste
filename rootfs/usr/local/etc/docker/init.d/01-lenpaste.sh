@@ -184,7 +184,9 @@ ADDITIONAL_CONFIG_DIRS=""
 CMD_ENV=""
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Overwrite based on file/directory
-
+if ! echo "$LENPASTE_ADDRESS" | grep -q ":[0-9][0-9]"; then
+LENPASTE_ADDRESS="$LENPASTE_ADDRESS:$SERVICE_PORT"
+fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Per Application Variables or imports
 
