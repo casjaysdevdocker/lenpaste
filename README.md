@@ -19,17 +19,18 @@ dockermgr update lenpaste
 ## Install and run container
   
 ```shell
-mkdir -p "$HOME/.local/share/srv/docker/lenpaste/volumes"
+dockerHome="/var/lib/srv/$USER/docker/casjaysdevdocker/lenpaste/lenpaste/latest/rootfs"
+mkdir -p "/var/lib/srv/$USER/docker/lenpaste/rootfs"
 git clone "https://github.com/dockermgr/lenpaste" "$HOME/.local/share/CasjaysDev/dockermgr/lenpaste"
-cp -Rfva "$HOME/.local/share/CasjaysDev/dockermgr/lenpaste/rootfs/." "$HOME/.local/share/srv/docker/lenpaste/volumes/"
+cp -Rfva "$HOME/.local/share/CasjaysDev/dockermgr/lenpaste/rootfs/." "$dockerHome/"
 docker run -d \
 --restart always \
 --privileged \
---name casjaysdevdocker-lenpaste \
+--name casjaysdevdocker-lenpaste-latest \
 --hostname lenpaste \
 -e TZ=${TIMEZONE:-America/New_York} \
--v "$HOME/.local/share/srv/docker/casjaysdevdocker-lenpaste/volumes/data:/data:z" \
--v "$HOME/.local/share/srv/docker/casjaysdevdocker-lenpaste/volumes/config:/config:z" \
+-v "$dockerHome/data:/data:z" \
+-v "$dockerHome/config:/config:z" \
 -p 80:80 \
 casjaysdevdocker/lenpaste:latest
 ```
@@ -46,8 +47,8 @@ services:
       - TZ=America/New_York
       - HOSTNAME=lenpaste
     volumes:
-      - "$HOME/.local/share/srv/docker/casjaysdevdocker-lenpaste/volumes/data:/data:z"
-      - "$HOME/.local/share/srv/docker/casjaysdevdocker-lenpaste/volumes/config:/config:z"
+      - "/var/lib/srv/$USER/docker/casjaysdevdocker/lenpaste/lenpaste/latest/rootfs/data:/data:z"
+      - "/var/lib/srv/$USER/docker/casjaysdevdocker/lenpaste/lenpaste/latest/rootfs/config:/config:z"
     ports:
       - 80:80
     restart: always
